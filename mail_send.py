@@ -1,6 +1,6 @@
 import os
 import smtplib
-from typing import Union
+from typing import Optional
 from email import message
 from logging import Logger
 from BrownieAtelierNotice import settings
@@ -9,13 +9,13 @@ from BrownieAtelierNotice import settings
 # https://qiita.com/aj2727/items/81e5d67cbcbf7396e392
 # Pythonでメールを送信（Outlook）
 
-def mail_send(title: str, msg: str, logger: Union[Logger, None] = None) -> None:
+def mail_send(title: str, msg: str, param_logger: Optional[Logger] = None) -> None:
     '''メール送信。件名(title)と本文(msg)を引数で渡す。'''
 
-    if logger:
-        logger2: Logger = logger
+    if param_logger:
+        logger: Logger = param_logger
     else:
-        logger2: Logger = settings.logger
+        logger: Logger = settings.logger
 
     # 接続設定情報
     smtp_host = settings.BROWNIE_ATELIER_NOTICE__SMTP_HOST
@@ -51,6 +51,6 @@ def mail_send(title: str, msg: str, logger: Union[Logger, None] = None) -> None:
         server.send_message(mail)
         server.quit()
     except Exception as e:
-        logger2.error(f'=== メール通知失敗({os.path.basename(__file__)}): {e}')
+        logger.error(f'=== メール通知失敗({os.path.basename(__file__)}): {e}')
     else:
-        logger2.info(f'=== メール通知完了({os.path.basename(__file__)}): title = {title}')
+        logger.info(f'=== メール通知完了({os.path.basename(__file__)}): title = {title}')

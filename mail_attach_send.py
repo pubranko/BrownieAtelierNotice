@@ -1,6 +1,6 @@
 import os
 import smtplib
-from typing import Union
+from typing import Optional
 from logging import Logger
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
@@ -8,12 +8,12 @@ from email.mime.application import MIMEApplication
 from BrownieAtelierNotice import settings
 
 
-def mail_attach_send(title: str, msg: str, filepath: str, logger: Union[Logger, None] = None) -> None:
+def mail_attach_send(title: str, msg: str, filepath: str, param_logger: Optional[Logger] = None) -> None:
     '''添付ファイル付きメールの送信'''
-    if logger:
-        logger2: Logger = logger
+    if param_logger:
+        logger: Logger = param_logger
     else:
-        logger2: Logger = settings.logger
+        logger: Logger = settings.logger
 
     smtp_host = settings.BROWNIE_ATELIER_NOTICE__SMTP_HOST
     smtp_port = settings.BROWNIE_ATELIER_NOTICE__SMTP_PORT
@@ -44,6 +44,6 @@ def mail_attach_send(title: str, msg: str, filepath: str, logger: Union[Logger, 
         server.send_message(mail)
         server.quit()
     except Exception as e:
-        logger2.error(f'=== メール通知失敗({os.path.basename(__file__)}): {e}')
+        logger.error(f'=== メール通知失敗({os.path.basename(__file__)}): {e}')
     else:
-        logger2.info(f'=== メール通知完了({os.path.basename(__file__)}): title = {title}')
+        logger.info(f'=== メール通知完了({os.path.basename(__file__)}): title = {title}')
