@@ -1,21 +1,21 @@
 import os
 import smtplib
-from typing import Optional
+from typing import Optional,Union
 from email import message
-from logging import Logger
+from logging import Logger,LoggerAdapter
 from BrownieAtelierNotice import settings
 
 # (参考情報)
 # https://qiita.com/aj2727/items/81e5d67cbcbf7396e392
 # Pythonでメールを送信（Outlook）
 
-def mail_send(title: str, msg: str, param_logger: Optional[Logger] = None) -> None:
+def mail_send(title: str, msg: str, param_logger: Optional[Union[Logger,LoggerAdapter]] = None) -> None:
     '''メール送信。件名(title)と本文(msg)を引数で渡す。'''
 
     if param_logger:
-        logger: Logger = param_logger
+        logger = param_logger
     else:
-        logger: Logger = settings.logger
+        logger = settings.logger
 
     # 接続設定情報
     smtp_host = settings.BROWNIE_ATELIER_NOTICE__SMTP_HOST
