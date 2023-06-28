@@ -1,19 +1,19 @@
 import os
 import smtplib
-from typing import Optional
-from logging import Logger
+from typing import Optional, TypeVar, Union
+from logging import Logger, LoggerAdapter
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 from email.mime.application import MIMEApplication
 from BrownieAtelierNotice import settings
 
 
-def mail_attach_send(title: str, msg: str, filepath: str, param_logger: Optional[Logger] = None) -> None:
+def mail_attach_send(title: str, msg: str, filepath: str, param_logger: Optional[Union[Logger, LoggerAdapter]] = None) -> None:
     '''添付ファイル付きメールの送信'''
     if param_logger:
-        logger: Logger = param_logger
+        logger = param_logger
     else:
-        logger: Logger = settings.logger
+        logger = settings.logger
 
     smtp_host = settings.BROWNIE_ATELIER_NOTICE__SMTP_HOST
     smtp_port = settings.BROWNIE_ATELIER_NOTICE__SMTP_PORT
