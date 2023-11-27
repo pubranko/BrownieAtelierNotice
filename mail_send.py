@@ -44,9 +44,10 @@ def mail_send(title: str, msg: str, param_logger: Optional[Union[Logger,LoggerAd
     '''
     try:
         server = smtplib.SMTP(smtp_host, smtp_port, timeout=timeout_limit)
-        server.ehlo()
+        # server.set_debuglevel(True) # デバックモードをONにしたい場合
+        server.ehlo('mylowercasehost')  # smtp.office365.comに送る場合「mylowercasehost」の指定が必要らしい。
         server.starttls()
-        server.ehlo()
+        server.ehlo('mylowercasehost')  # smtp.office365.comに送る場合「mylowercasehost」の指定が必要らしい。
         server.login(username, password)
         server.send_message(mail)
         server.quit()
