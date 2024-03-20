@@ -1,15 +1,21 @@
 import os
 import smtplib
-from typing import Optional, TypeVar, Union
-from logging import Logger, LoggerAdapter
-from email.mime.text import MIMEText
-from email.mime.multipart import MIMEMultipart
 from email.mime.application import MIMEApplication
+from email.mime.multipart import MIMEMultipart
+from email.mime.text import MIMEText
+from logging import Logger, LoggerAdapter
+from typing import Optional, TypeVar, Union
+
 from BrownieAtelierNotice import settings
 
 
-def mail_attach_send(title: str, msg: str, filepath: str, param_logger: Optional[Union[Logger, LoggerAdapter]] = None) -> None:
-    '''添付ファイル付きメールの送信'''
+def mail_attach_send(
+    title: str,
+    msg: str,
+    filepath: str,
+    param_logger: Optional[Union[Logger, LoggerAdapter]] = None,
+) -> None:
+    """添付ファイル付きメールの送信"""
     if param_logger:
         logger = param_logger
     else:
@@ -38,13 +44,17 @@ def mail_attach_send(title: str, msg: str, filepath: str, param_logger: Optional
     try:
         server = smtplib.SMTP(smtp_host, smtp_port, timeout=timeout_limit)
         # server.set_debuglevel(True) # デバックモードをONにしたい場合
-        server.ehlo('mylowercasehost')  # smtp.office365.comに送る場合「mylowercasehost」の指定が必要らしい。
+        server.ehlo(
+            "mylowercasehost"
+        )  # smtp.office365.comに送る場合「mylowercasehost」の指定が必要らしい。
         server.starttls()
-        server.ehlo('mylowercasehost')  # smtp.office365.comに送る場合「mylowercasehost」の指定が必要らしい。
+        server.ehlo(
+            "mylowercasehost"
+        )  # smtp.office365.comに送る場合「mylowercasehost」の指定が必要らしい。
         server.login(username, password)
         server.send_message(mail)
         server.quit()
     except Exception as e:
-        logger.error(f'=== メール通知失敗({os.path.basename(__file__)}): {e}')
+        logger.error(f"=== メール通知失敗({os.path.basename(__file__)}): {e}")
     else:
-        logger.info(f'=== メール通知完了({os.path.basename(__file__)}): title = {title}')
+        logger.info(f"=== メール通知完了({os.path.basename(__file__)}): title = {title}")
