@@ -1,8 +1,9 @@
 import os
 import smtplib
-from typing import Optional, Union
 from email import message
 from logging import Logger, LoggerAdapter
+from typing import Optional, Union
+
 from BrownieAtelierNotice import settings
 
 # (参考情報)

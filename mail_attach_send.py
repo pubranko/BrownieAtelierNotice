@@ -1,10 +1,11 @@
 import os
 import smtplib
-from typing import Optional, TypeVar, Union
-from logging import Logger, LoggerAdapter
-from email.mime.text import MIMEText
-from email.mime.multipart import MIMEMultipart
 from email.mime.application import MIMEApplication
+from email.mime.multipart import MIMEMultipart
+from email.mime.text import MIMEText
+from logging import Logger, LoggerAdapter
+from typing import Optional, TypeVar, Union
+
 from BrownieAtelierNotice import settings
 
 

@@ -1,5 +1,5 @@
-from BrownieAtelierNotice.mail_send import mail_send
 from BrownieAtelierNotice.mail_attach_send import mail_attach_send
+from BrownieAtelierNotice.mail_send import mail_send
 
 # 件名、本文、添付ファイルなし。
 mail_send("テスト", "あああああ")
