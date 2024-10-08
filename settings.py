@@ -21,16 +21,32 @@ handler.setFormatter(logging.Formatter(fmt=format, datefmt=datefmt))
 
 # Emailで通知を行う場合、以下のサーバー・ポートなどの情報が必要となります。
 BROWNIE_ATELIER_NOTICE__SMTP_HOST: str = str(
-    config("BROWNIE_ATELIER_NOTICE__SMTP_HOST")
+    config("BROWNIE_ATELIER_NOTICE__SMTP_HOST", default="")
 )
 BROWNIE_ATELIER_NOTICE__SMTP_PORT: int = int(
-    config("BROWNIE_ATELIER_NOTICE__SMTP_PORT")
+    config("BROWNIE_ATELIER_NOTICE__SMTP_PORT", default=0)
 )
 BROWNIE_ATELIER_NOTICE__FROM_EMAIL: str = str(
-    config("BROWNIE_ATELIER_NOTICE__FROM_EMAIL")
+    config("BROWNIE_ATELIER_NOTICE__FROM_EMAIL", default="")
 )
-BROWNIE_ATELIER_NOTICE__TO_EMAIL: str = str(config("BROWNIE_ATELIER_NOTICE__TO_EMAIL"))
-BROWNIE_ATELIER_NOTICE__PASSWORD: str = str(config("BROWNIE_ATELIER_NOTICE__PASSWORD"))
+BROWNIE_ATELIER_NOTICE__TO_EMAIL: str = str(
+    config("BROWNIE_ATELIER_NOTICE__TO_EMAIL", default="")
+)
+BROWNIE_ATELIER_NOTICE__PASSWORD: str = str(
+    config("BROWNIE_ATELIER_NOTICE__PASSWORD", default="")
+)
 BROWNIE_ATELIER_NOTICE__TIMEOUT_LIMIT: float = float(
     config("BROWNIE_ATELIER_NOTICE__TIMEOUT_LIMIT", default=60)
+)
+
+# slackで通知を行う場合、以下の情報が必要となります。
+
+BROWNIE_ATELIER_NOTICE__SLACK_TOKEN: str = str(
+    config("BROWNIE_ATELIER_NOTICE__SLACK_TOKEN", default="")
+)
+BROWNIE_ATELIER_NOTICE__SLACK_CHANNEL_ID__ERROR: str = str(
+    config("BROWNIE_ATELIER_NOTICE__SLACK_CHANNEL_ID__ERROR", default="")
+)
+BROWNIE_ATELIER_NOTICE__SLACK_CHANNEL_ID__NOMAL: str = str(
+    config("BROWNIE_ATELIER_NOTICE__SLACK_CHANNEL_ID__NOMAL", default="")
 )
