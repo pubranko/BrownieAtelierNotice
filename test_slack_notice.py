@@ -94,7 +94,19 @@ if __name__ == "__main__":
     slack_notice(
         logger=logger,
         channel_id=settings.BROWNIE_ATELIER_NOTICE__SLACK_CHANNEL_ID__ERROR,
-        message=f"3. slack_noticeメソッド(ファイルライク・添付あり)のてすとーーーー！ {datetime.now().isoformat()}",
+        message=f"3. slack_noticeメソッド(ファイル・添付あり)のてすとーーーー！ {datetime.now().isoformat()}",
         file=file_like,
         file_name=file_name,
+    )
+
+    import io
+    _ = "ファイルライクオブジェクト！！！"
+    file_like = io.BytesIO(_.encode("utf-8"))
+
+    slack_notice(
+        logger=logger,
+        channel_id=settings.BROWNIE_ATELIER_NOTICE__SLACK_CHANNEL_ID__ERROR,
+        message=f"4. slack_noticeメソッド(ファイルライク・添付あり)のてすとーーーー！ {datetime.now().isoformat()}",
+        file=file_like.read(),
+        file_name="file_like.txt",
     )
