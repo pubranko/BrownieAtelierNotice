@@ -7,6 +7,4 @@ if __name__ == "__main__":
     mail_send("テスト", "あああああ")
 
     # 件名、本文、添付ファイルあり。
-    mail_attach_send(
-        title="test", msg="手動で実行", filepath="BrownieAtelierNotice/test_notice.py"
-    )
+    mail_attach_send(title="test", msg="手動で実行", filepath="BrownieAtelierNotice/test_notice.py")

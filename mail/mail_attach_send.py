@@ -44,13 +44,9 @@ def mail_attach_send(
     try:
         server = smtplib.SMTP(smtp_host, smtp_port, timeout=timeout_limit)
         # server.set_debuglevel(True) # デバックモードをONにしたい場合
-        server.ehlo(
-            "mylowercasehost"
-        )  # smtp.office365.comに送る場合「mylowercasehost」の指定が必要らしい。
+        server.ehlo("mylowercasehost")  # smtp.office365.comに送る場合「mylowercasehost」の指定が必要らしい。
         server.starttls()
-        server.ehlo(
-            "mylowercasehost"
-        )  # smtp.office365.comに送る場合「mylowercasehost」の指定が必要らしい。
+        server.ehlo("mylowercasehost")  # smtp.office365.comに送る場合「mylowercasehost」の指定が必要らしい。
         server.login(username, password)
         server.send_message(mail)
         server.quit()

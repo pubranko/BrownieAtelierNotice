@@ -16,14 +16,10 @@ def slack_notice_test():
     # bot_user_id = auth_test["user_id"]
     print(f"疎通確認OK: {auth_test}")
 
-
     # メッセージの送信のみ
     text = "て～～すと"
     try:
-        response = client.chat_postMessage(
-            channel=settings.BROWNIE_ATELIER_NOTICE__SLACK_CHANNEL_ID__ERROR,
-            text=text
-        )
+        response = client.chat_postMessage(channel=settings.BROWNIE_ATELIER_NOTICE__SLACK_CHANNEL_ID__ERROR, text=text)
         print(f"post message: {response}")
         assert response["message"]["text"] == text
     except SlackApiError as e:
@@ -46,25 +42,25 @@ def slack_notice_test():
             channel=settings.BROWNIE_ATELIER_NOTICE__SLACK_CHANNEL_ID__ERROR,
             file=file_like,
             filename=file_name,
-            title='添付ファイルのファイル名として表示される名称',   # これを指定しないとファイルのフルパスが表示される。
-            initial_comment='添付ファイルと一緒に送信するメッセージがあればここに記述'
+            title="添付ファイルのファイル名として表示される名称",  # これを指定しないとファイルのフルパスが表示される。
+            initial_comment="添付ファイルと一緒に送信するメッセージがあればここに記述",
         )
         # print(f"File uploaded: {response['file']['id']}")
         print(f"File uploaded: {response['ok']}")
-        assert response['ok'] == True
+        assert response["ok"] == True
     except SlackApiError as e:
         print(f"Error uploading file: {e}")
 
-if __name__ == "__main__":
 
+if __name__ == "__main__":
     # 上記の接続実験ソース
     # slack_notice_test()
-    
+
     # 以下正式なモジュールのテスト用
     logger: Logger = logging.getLogger("prefect")
     logger.setLevel(logging.DEBUG)  # ログレベルをDEBUGに設定
     handler = logging.StreamHandler()
-    formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+    formatter = logging.Formatter("%(asctime)s - %(name)s - %(levelname)s - %(message)s")
     handler.setFormatter(formatter)
     logger.addHandler(handler)
 
@@ -100,6 +96,7 @@ if __name__ == "__main__":
     )
 
     import io
+
     _ = "ファイルライクオブジェクト！！！"
     file_like = io.BytesIO(_.encode("utf-8"))
 

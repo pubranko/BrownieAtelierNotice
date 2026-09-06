@@ -11,9 +11,7 @@ from BrownieAtelierNotice import settings
 # Pythonでメールを送信（Outlook）
 
 
-def mail_send(
-    title: str, msg: str, param_logger: Optional[Union[Logger, LoggerAdapter]] = None
-) -> None:
+def mail_send(title: str, msg: str, param_logger: Optional[Union[Logger, LoggerAdapter]] = None) -> None:
     """メール送信。件名(title)と本文(msg)を引数で渡す。"""
 
     if param_logger:
@@ -49,13 +47,9 @@ def mail_send(
     try:
         server = smtplib.SMTP(smtp_host, smtp_port, timeout=timeout_limit)
         # server.set_debuglevel(True) # デバックモードをONにしたい場合
-        server.ehlo(
-            "mylowercasehost"
-        )  # smtp.office365.comに送る場合「mylowercasehost」の指定が必要らしい。
+        server.ehlo("mylowercasehost")  # smtp.office365.comに送る場合「mylowercasehost」の指定が必要らしい。
         server.starttls()
-        server.ehlo(
-            "mylowercasehost"
-        )  # smtp.office365.comに送る場合「mylowercasehost」の指定が必要らしい。
+        server.ehlo("mylowercasehost")  # smtp.office365.comに送る場合「mylowercasehost」の指定が必要らしい。
         server.login(username, password)
         server.send_message(mail)
         server.quit()

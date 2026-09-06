@@ -5,12 +5,14 @@ from slack_sdk.errors import SlackApiError
 from logging import Logger, LoggerAdapter
 from BrownieAtelierNotice import settings
 
+
 def slack_notice(
-    logger:Union[Logger,LoggerAdapter],
-    channel_id:str,
-    message:str,
-    file:Union[str, bytes] = "",
-    file_name: str="",):
+    logger: Union[Logger, LoggerAdapter],
+    channel_id: str,
+    message: str,
+    file: Union[str, bytes] = "",
+    file_name: str = "",
+):
     """
     slackへ指定したチャンネルにメッセージを送信します。
     添付ファイルがある場合は、fileとfile_nameを設定してください。
@@ -27,30 +29,24 @@ def slack_notice(
             # ファイルをアップロード
             response = client.files_upload_v2(
                 channel=channel_id,
-                file=file, # ファイルパスまたはファイルライクオブジェクト
-                filename=file_name, # 添付されるファイル名
-                title=file_name, # slackに表示されるファイル名
-                initial_comment=message
+                file=file,  # ファイルパスまたはファイルライクオブジェクト
+                filename=file_name,  # 添付されるファイル名
+                title=file_name,  # slackに表示されるファイル名
+                initial_comment=message,
             )
             assert response["ok"] == True
             logger.info(f"Slackへファイルアップロード完了")
         except SlackApiError as e:
             logger.error(f"Slackへファイルアップロード失敗: {e}")
 
-    
     def _chat_postMessage():
         """メッセージ送信専用"""
         try:
-            response = client.chat_postMessage(
-                channel=channel_id,
-                text=message
-            )
+            response = client.chat_postMessage(channel=channel_id, text=message)
             assert response["ok"] == True
             logger.info(f"Slackへメッセージ送信完了")
         except SlackApiError as e:
             logger.error(f"Slackへメッセージ送信失敗: {e}")
-
-
 
     client = WebClient(token=settings.BROWNIE_ATELIER_NOTICE__SLACK_TOKEN)
 
@@ -68,8 +64,8 @@ def slack_notice(
 
         # ファイルパス指定の場合、ファイルの存在チェックを実施
         if type(file) == str:
-            exists_checked:bool = os.path.exists(file)
-            
+            exists_checked: bool = os.path.exists(file)
+
             if exists_checked:
                 # ファイルが存在する場合、添付ファイルとメッセージを送信
                 _files_upload_v2()
@@ -79,11 +75,11 @@ def slack_notice(
                 logger.error(f"slackへ送信したいファイルが存在しません。 file: {file}")
                 message = "### 添付ファイルが存在しなかったためファイルの添付を中止 ###\n\n" + message
                 _chat_postMessage()
-        
+
         else:
             # ファイルライクオブジェクトの場合、そのまま送信
             _files_upload_v2()
-    
+
     else:
         # 添付ファイルの指定がない場合メッセージを送信
         _chat_postMessage()
