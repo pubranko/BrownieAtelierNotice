@@ -4,7 +4,6 @@ from email.mime.application import MIMEApplication
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 from logging import Logger, LoggerAdapter
-from typing import Optional, TypeVar, Union
 
 from BrownieAtelierNotice import settings
 
@@ -13,7 +12,7 @@ def mail_attach_send(
     title: str,
     msg: str,
     filepath: str,
-    param_logger: Optional[Union[Logger, LoggerAdapter]] = None,
+    param_logger: Logger | LoggerAdapter | None = None,
 ) -> None:
     """添付ファイル付きメールの送信"""
     if param_logger:

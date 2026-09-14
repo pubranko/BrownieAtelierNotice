@@ -2,7 +2,6 @@ import os
 import smtplib
 from email import message
 from logging import Logger, LoggerAdapter
-from typing import Optional, Union
 
 from BrownieAtelierNotice import settings
 
@@ -11,7 +10,7 @@ from BrownieAtelierNotice import settings
 # Pythonでメールを送信（Outlook）
 
 
-def mail_send(title: str, msg: str, param_logger: Optional[Union[Logger, LoggerAdapter]] = None) -> None:
+def mail_send(title: str, msg: str, param_logger: Logger | LoggerAdapter | None = None) -> None:
     """メール送信。件名(title)と本文(msg)を引数で渡す。"""
 
     if param_logger:

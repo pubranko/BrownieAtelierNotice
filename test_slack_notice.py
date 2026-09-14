@@ -1,11 +1,12 @@
 import logging
+from datetime import datetime
 from logging import Logger
-from slack_sdk import WebClient
-from slack_sdk.errors import SlackApiError
-from shared.settings import DATA
+
 from BrownieAtelierNotice import settings
 from BrownieAtelierNotice.slack.slack_notice import slack_notice
-from datetime import datetime
+from shared.settings import DATA
+from slack_sdk import WebClient
+from slack_sdk.errors import SlackApiError
 
 
 def slack_notice_test():

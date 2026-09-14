@@ -1,16 +1,16 @@
 import os
-from typing import Union
+from logging import Logger, LoggerAdapter
+
+from BrownieAtelierNotice import settings
 from slack_sdk import WebClient
 from slack_sdk.errors import SlackApiError
-from logging import Logger, LoggerAdapter
-from BrownieAtelierNotice import settings
 
 
 def slack_notice(
-    logger: Union[Logger, LoggerAdapter],
+    logger: Logger | LoggerAdapter,
     channel_id: str,
     message: str,
-    file: Union[str, bytes] = "",
+    file: str | bytes = "",
     file_name: str = "",
 ):
     """
@@ -35,7 +35,7 @@ def slack_notice(
                 initial_comment=message,
             )
             assert response["ok"] == True
-            logger.info(f"Slackへファイルアップロード完了")
+            logger.info("Slackへファイルアップロード完了")
         except SlackApiError as e:
             logger.error(f"Slackへファイルアップロード失敗: {e}")
 
@@ -44,7 +44,7 @@ def slack_notice(
         try:
             response = client.chat_postMessage(channel=channel_id, text=message)
             assert response["ok"] == True
-            logger.info(f"Slackへメッセージ送信完了")
+            logger.info("Slackへメッセージ送信完了")
         except SlackApiError as e:
             logger.error(f"Slackへメッセージ送信失敗: {e}")
 
