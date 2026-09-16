@@ -19,8 +19,10 @@ def slack_notice(
     Args:
         channel_id (str): 送信先のチャンネルIDを指定
         message (str): 送信したいメッセージを指定
-        file (Union[str, bytes], optional): 添付ファイルを送信する場合、そのファイルパスかファイルライクオブジェクトを指定
-        file_name (str, optional): 添付ファイルを送信する場合、ファイル名を指定（メッセージ内に表示する名称＆実際に保存される名称）
+        file (Union[str, bytes], optional):
+        添付ファイルを送信する場合、そのファイルパスかファイルライクオブジェクトを指定
+        file_name (str, optional):
+        添付ファイルを送信する場合、ファイル名を指定（メッセージ内に表示する名称＆実際に保存される名称）
     """
 
     def _files_upload_v2():
@@ -34,7 +36,7 @@ def slack_notice(
                 title=file_name,  # slackに表示されるファイル名
                 initial_comment=message,
             )
-            assert response["ok"] == True
+            assert response["ok"]
             logger.info("Slackへファイルアップロード完了")
         except SlackApiError as e:
             logger.error(f"Slackへファイルアップロード失敗: {e}")
@@ -43,7 +45,7 @@ def slack_notice(
         """メッセージ送信専用"""
         try:
             response = client.chat_postMessage(channel=channel_id, text=message)
-            assert response["ok"] == True
+            assert response["ok"]
             logger.info("Slackへメッセージ送信完了")
         except SlackApiError as e:
             logger.error(f"Slackへメッセージ送信失敗: {e}")
@@ -54,16 +56,19 @@ def slack_notice(
     try:
         auth_test = client.auth_test()
         # bot_user_id = auth_test["user_id"]
-        assert auth_test["ok"] == True
+        if not auth_test["ok"]:
+            logger.critical("Slack認証に失敗しました。トークンを確認してください。")
+            return
         logger.info(f"Slack疎通確認: {auth_test['ok']}")
-    except:
-        logger.critical(f"slackへ接続できませんでした。トークンを確認してください。{auth_test}")
+    except Exception:
+        logger.critical("slackへ接続できませんでした。トークンを確認してください。", exc_info=True)
+        return
 
     if file:
         # 添付ファイルを送信する場合
 
         # ファイルパス指定の場合、ファイルの存在チェックを実施
-        if type(file) == str:
+        if type(file) is str:
             exists_checked: bool = os.path.exists(file)
 
             if exists_checked:

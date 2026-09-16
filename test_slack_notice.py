@@ -22,7 +22,9 @@ def slack_notice_test():
     try:
         response = client.chat_postMessage(channel=settings.BROWNIE_ATELIER_NOTICE__SLACK_CHANNEL_ID__ERROR, text=text)
         print(f"post message: {response}")
-        assert response["message"]["text"] == text
+        message = response["message"]
+        assert isinstance(message, dict), "Slack応答にmessageがありません"
+        assert message["text"] == text
     except SlackApiError as e:
         print(f"Error sending message: {e}")
 
@@ -48,7 +50,7 @@ def slack_notice_test():
         )
         # print(f"File uploaded: {response['file']['id']}")
         print(f"File uploaded: {response['ok']}")
-        assert response["ok"] == True
+        assert response["ok"]
     except SlackApiError as e:
         print(f"Error uploading file: {e}")
 
