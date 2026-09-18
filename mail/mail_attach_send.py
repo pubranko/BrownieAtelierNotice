@@ -4,7 +4,6 @@ from email.mime.application import MIMEApplication
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 from logging import Logger, LoggerAdapter
-from typing import Optional, TypeVar, Union
 
 from BrownieAtelierNotice import settings
 
@@ -13,7 +12,7 @@ def mail_attach_send(
     title: str,
     msg: str,
     filepath: str,
-    param_logger: Optional[Union[Logger, LoggerAdapter]] = None,
+    param_logger: Logger | LoggerAdapter | None = None,
 ) -> None:
     """添付ファイル付きメールの送信"""
     if param_logger:
@@ -44,13 +43,9 @@ def mail_attach_send(
     try:
         server = smtplib.SMTP(smtp_host, smtp_port, timeout=timeout_limit)
         # server.set_debuglevel(True) # デバックモードをONにしたい場合
-        server.ehlo(
-            "mylowercasehost"
-        )  # smtp.office365.comに送る場合「mylowercasehost」の指定が必要らしい。
+        server.ehlo("mylowercasehost")  # smtp.office365.comに送る場合「mylowercasehost」の指定が必要らしい。
         server.starttls()
-        server.ehlo(
-            "mylowercasehost"
-        )  # smtp.office365.comに送る場合「mylowercasehost」の指定が必要らしい。
+        server.ehlo("mylowercasehost")  # smtp.office365.comに送る場合「mylowercasehost」の指定が必要らしい。
         server.login(username, password)
         server.send_message(mail)
         server.quit()
